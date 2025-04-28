@@ -17,7 +17,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes);
 
 // MongoDB Connection
-mongoose.connect('mongodb+srv://saurabh2271be22:3GXTWJUgoP6PFPCv@cluster0.hs9twnu.mongodb.net/suncast', {
+mongoose.connect('', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
