@@ -2,7 +2,7 @@ const multer = require('multer');
 const { GridFsStorage } = require('multer-gridfs-storage');
 
 // MongoDB Atlas URI
-const mongoURI = 'mongodb+srv://saurabh2271be22:3GXTWJUgoP6PFPCv@cluster0.hs9twnu.mongodb.net/suncast';
+const mongoURI = '';
 
 // Set up GridFS storage
 const storage = new GridFsStorage({
