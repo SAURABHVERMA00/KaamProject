@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Upload Excel - Sustainability Dashboard</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: #ecf0f1;
+        margin: 0;
+        padding: 0;
+        color: #2c3e50;
+      }
+
+      .container {
+        background: white;
+        padding: 30px 40px;
+        border-radius: 20px;
+        max-width: 800px;
+        margin: 50px auto;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        color: #27ae60;
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: block;
+      }
+
+      input[type="file"] {
+        width: 100%;
+        padding: 12px;
+        margin: 15px 0;
+        border: 2px solid #2ecc71;
+        border-radius: 12px;
+        font-size: 16px;
+      }
+
+      button {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #2ecc71;
+        border: none;
+        color: white;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s ease;
+        margin-top: 10px;
+      }
+
+      button:hover {
+        background-color: #27ae60;
+      }
+
+      #uploadStatus {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background-color: #eafaf1;
+        padding: 15px;
+        border-left: 5px solid #2ecc71;
+        border-radius: 10px;
+        font-weight: 600;
+      }
+
+      #uploadStatus span {
+        color: #27ae60;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Solar Data Uploader</h1>
+
+      <form id="uploadForm">
+        <label for="excelFile">Upload your electricity data file (Excel)</label>
+        <input type="file" id="excelFile" accept=".xlsx, .xls" />
+
+
+        <div id="uploadStatus" style="display: none">
+          ✅ <span id="fileName">File uploaded</span>
+        </div>
+
+      </form>
+
+      <button onclick="goToPrediction()">Next: Predict Electricity</button>
+    </div>
+
+    <script>
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const formData = new FormData();
+          const fileInput = document.getElementById("excelFile");
+          formData.append("excelFile", fileInput.files[0]);
+
+          console.log("File to upload:", fileInput.files[0]);
+
+          const response = await fetch("http://localhost:5000/api/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (response.ok) {
+            document.getElementById("uploadStatus").style.display = "flex";
+            document.getElementById(
+              "fileName"
+            ).textContent = `File uploaded successfully`;
+          } else {
+            alert("Upload failed");
+          }
+        });
+
+      function goToPrediction() {
+        if (document.getElementById("excelFile").files.length === 0) {
+          alert("Please upload a file first!");
+          return;
+        }
+        window.location.href = "4.html";
+      }
+    </script>
+  </body>
+</html>

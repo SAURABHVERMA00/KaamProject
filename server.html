@@ -1,0 +1,289 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SUNCAST Login</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+        color: white;
+      }
+
+      h1 {
+        position: absolute;
+        top: 20px;
+        width: 100%;
+        text-align: center;
+        font-size: 70px;
+        font-family: 'Times New Roman', Times, serif;
+        z-index: 2;
+        color: darkgreen;
+      }
+
+      p {
+        color: #000;
+        position: absolute;
+        top: 25%;
+        left: 3%;
+        font-size: 18px;
+        font-family: 'Times New Roman', Times, serif;
+      }
+
+      .video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+      }
+
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .container {
+        display: flex;
+        height: 100vh;
+        padding-top: 80px;
+      }
+
+      .left-content {
+        flex: 1;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        font-size: 18px;
+        line-height: 1.6;
+      }
+
+      .form-container {
+        flex: 1;
+        height: 60%;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 10px;
+        position: absolute;
+        right: 3%;
+        top: 20%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        max-width: 350px;
+      }
+
+      h2, h3 {
+        font-family: 'Times New Roman', Times, serif;
+      }
+
+      h2 {
+        font-size: 30px;
+        margin-bottom: 5px;
+      }
+
+      h3 {
+        font-size: 47px;
+        margin-bottom: 20px;
+      }
+
+      input {
+        width: 80%;
+        font-family: 'Times New Roman', Times, serif;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+      }
+
+      .form {
+        text-align: center;
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+        width: 100%;
+      }
+
+      .form.active {
+        opacity: 1;
+        visibility: visible;
+        position: relative;
+      }
+
+      .form button[type="submit"] {
+        background: linear-gradient(to right, #00c6ff, #00cc66);
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-family: 'Times New Roman', Times, serif;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        margin-top: 10px;
+        width: 60%;
+      }
+
+      .form button[type="submit"]:hover {
+        background: linear-gradient(to right, #00b2e0, #00994d);
+      }
+
+      .form-toggle {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #fff;
+      }
+
+      .form-toggle button {
+        background: none;
+        border: none;
+        color: #00c6ff;
+        cursor: pointer;
+        text-decoration: underline;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 14px;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h1>SUNCAST</h1>
+
+    <div class="video-background">
+      <video autoplay muted loop>
+        <source src="solar.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <div class="container">
+      <div class="left-content">
+        <p>
+          Our program assists users in analyzing data on solar power generation
+          and consumption to calculate the amount of electricity <br> needed to meet demand. 
+          It forecasts future power consumption trends by monitoring historical and 
+          real-time data, which<br> facilitates improved planning, energy management, 
+          and effective solar resource utilization to provide steady power supply.
+        </p>
+      </div>
+
+      <div class="form-container">
+        <h2>Hello!</h2>
+        <h3>Welcome</h3>
+
+        <form id="loginForm" class="form active">
+          <input type="text" placeholder="Username" required />
+          <input type="password" placeholder="Password" required />
+          <button type="submit">Login</button>
+          <div class="form-toggle">
+            <span>Don't have an account? <button id="signupBtn" type="button">Signup</button></span>
+          </div>
+        </form>
+
+        <form id="signupForm" class="form">
+          <input type="text" placeholder="Username" required />
+          <input type="email" placeholder="Email" required />
+          <input type="password" placeholder="Password" required />
+          <button type="submit">Submit</button>
+          <div class="form-toggle">
+            <span>Already have an account? <button id="loginBtn" type="button">Login</button></span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+    /* const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      const loginBtn = document.getElementById('loginBtn');
+      const signupBtn = document.getElementById('signupBtn');
+
+      loginBtn.addEventListener('click', () => {
+        loginForm.classList.add('active');
+        signupForm.classList.remove('active');
+      });
+
+      signupBtn.addEventListener('click', () => {
+        signupForm.classList.add('active');
+        loginForm.classList.remove('active');
+      }); */
+
+      /* for sign up  */
+      document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = e.target[0].value;
+        const email = e.target[1].value;
+        const password = e.target[2].value;
+      
+        try {
+          const res = await fetch('http://localhost:5000/api/auth/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password }),
+          });
+      
+          const data = await res.json();
+          alert(data.message);
+          
+          if (res.ok) {  // If signup successful
+            window.location.href = 'dashboard.html';  // <<< Redirect to Dashboard
+          }
+        } catch (err) {
+          alert('Signup failed');
+        }
+      });
+      
+      
+      /* for login */
+
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = e.target[0].value;
+        const password = e.target[1].value;
+      
+        try {
+          const res = await fetch('http://localhost:5000/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+          });
+      
+          const data = await res.json();
+          alert(data.message);
+          
+          if (res.ok) {   // If login successful
+            window.location.href = 'dashboard.html';  // <<< Redirect to Dashboard
+          }
+        } catch (err) {
+          alert('Login failed');
+        }
+      });
+
+      /* for navigate to upload.html  */
+
+
+      
+      
+     
+      
+
+
+
+
+
+
+    </script>
+
+  </body>
+  </html>
